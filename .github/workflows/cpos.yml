@@ -25,8 +25,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements || true
 
-      - name: Run verifier
+      - name: Run CPOS verifier
         env:
-          CI: "1"
-        run: |
-          python verify_cpos_full.py
+          PYTHONPATH: ${{ github.workspace }}
+          run: python verify_cpos_full.py
+
