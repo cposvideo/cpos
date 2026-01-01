@@ -59,12 +59,18 @@ else:
 section("PHASE B — STATIC CODE HEALTH")
 
 import compileall
+import re
+
+exclude_rx = re.compile(r"(venv|__pycache__)")
+
 if not compileall.compile_dir(
     "src",
     quiet=1,
-    rx=r"venv|__pycache__"
+    rx=exclude_rx
 ):
     fail("Compilation errors detected in src/")
+
+ok("All source files compile cleanly")
 
 
 
