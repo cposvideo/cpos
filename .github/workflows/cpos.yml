@@ -22,13 +22,9 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements || true
+          pip install -r requirements.txt
 
       - name: Run CPOS verifier
         env:
           PYTHONPATH: ${{ github.workspace }}
         run: python verify_cpos_full.py
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
