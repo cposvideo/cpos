@@ -1,0 +1,2 @@
+tar -a -c -f CPOS_BASELINE_v1.3.zip src verify_cpos_full.py requirements.txt README.md
+certutil -hashfile CPOS_BASELINE_v1.3.zip SHA256
