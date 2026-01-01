@@ -51,9 +51,20 @@ try:
 except Exception:
     fail("Python environment broken")
 
-if "C:\\cpos" not in os.environ.get("PYTHONPATH", ""):
-    fail("PYTHONPATH must include C:\\cpos")
-ok("PYTHONPATH correct")
+pythonpath = os.environ.get("PYTHONPATH", "")
+
+if os.environ.get("CI") == "1":
+    # CI environment (GitHub Actions / GitLab CI)
+    repo_root = os.getcwd()
+    if "." not in pythonpath and repo_root not in pythonpath:
+        fail("CI PYTHONPATH must include repository root")
+    ok("CI PYTHONPATH correct")
+else:
+    # Local Windows enforcement
+    if "C:\\cpos" not in pythonpath:
+        fail("Local PYTHONPATH must include C:\\cpos")
+    ok("Local PYTHONPATH correct")
+
 
 
 # ------------------------------------------------------------
@@ -526,6 +537,10 @@ if os.path.exists(zip_name):
 else:
     ok("Release ZIP not yet generated (allowed)")
 
+
+git branch -M main
+git remote add origin https://github.com/vijavee/cpos.git
+git push -u origin main
 
 
 
