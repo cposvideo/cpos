@@ -1,3 +1,7 @@
+import sys
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
+
 """
 CPOS Full System Verification Script
 ===================================
@@ -150,7 +154,7 @@ url = make_url("mysql+pymysql://user:pass@localhost:3306/cpos")
 if url.drivername != "mysql+pymysql":
     fail("MySQL URL parsing failed")
 
-ok("DB layer is backend-agnostic (SQLite ↔ MySQL)")
+ok("DB layer is backend-agnostic (SQLite <-> MySQL)")
 
 # ------------------------------------------------------------
 # PHASE G — COMPILER
