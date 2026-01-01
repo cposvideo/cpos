@@ -51,19 +51,21 @@ try:
 except Exception:
     fail("Python environment broken")
 
-pythonpath = os.environ.get("PYTHONPATH", "")
-
 if os.environ.get("CI") == "1":
-    # CI environment (GitHub Actions / GitLab CI)
-    repo_root = os.getcwd()
-    if "." not in pythonpath and repo_root not in pythonpath:
-        fail("CI PYTHONPATH must include repository root")
-    ok("CI PYTHONPATH correct")
+    # CI invariant: src must be importable
+    try:
+        import src  # noqa: F401
+        ok("CI environment can import src package")
+    except Exception:
+        traceback.print_exc()
+        fail("CI cannot import src package")
 else:
-    # Local Windows enforcement
+    # Local Windows invariant: canonical install path
+    pythonpath = os.environ.get("PYTHONPATH", "")
     if "C:\\cpos" not in pythonpath:
         fail("Local PYTHONPATH must include C:\\cpos")
     ok("Local PYTHONPATH correct")
+
 
 
 
@@ -547,10 +549,6 @@ if os.path.exists(zip_name):
 else:
     ok("Release ZIP not yet generated (allowed)")
 
-
-git branch -M main
-git remote add origin https://github.com/vijavee/cpos.git
-git push -u origin main
 
 
 
