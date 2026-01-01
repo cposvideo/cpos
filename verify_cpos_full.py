@@ -59,9 +59,14 @@ else:
 section("PHASE B — STATIC CODE HEALTH")
 
 import compileall
-if not compileall.compile_dir("src", quiet=1):
+if not compileall.compile_dir(
+    "src",
+    quiet=1,
+    rx=r"venv|__pycache__"
+):
     fail("Compilation errors detected in src/")
-ok("All source files compile cleanly")
+
+
 
 # ------------------------------------------------------------
 # PHASE C — DETERMINISM
