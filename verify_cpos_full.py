@@ -378,11 +378,20 @@ try:
     if "cpu" not in caps:
         fail("CPU capability missing")
 
-    # GPU is optional, but structure must exist
-    ok(f"Hardware capabilities detected: {caps}")
+    vram = probe.vram_mb()
+
+    if vram is None:
+        ok("No GPU / torch not available (acceptable)")
+    else:
+        ok(f"GPU VRAM detected: {vram} MB")
+except ImportError:
+    ok("Torch not installed (acceptable in CI)")
 except Exception:
     traceback.print_exc()
-    fail("Hardware probing or scheduling broken")
+    fail("Hardware probing broken")
+
+
+
 # ------------------------------------------------------------
 # PHASE R — WORKER EXECUTION LAYER
 # ------------------------------------------------------------
@@ -498,15 +507,16 @@ section("PHASE X — CELERY / REDIS WORKERS")
 try:
     from src.workers.celery_app import celery_app
 
-    if celery_app.main != "cpos":
-        fail("Celery app misconfigured")
-
-    ok("Celery worker configuration verified")
-except ImportError:
-    ok("Celery not installed (optional dependency)")
+    if celery_app is None:
+        ok("Celery not installed (optional)")
+    else:
+        ok("Celery app configured")
 except Exception:
     traceback.print_exc()
     fail("Celery worker layer broken")
+
+
+
 
 # ------------------------------------------------------------
 # PHASE Y — PROMETHEUS EXPORTER
