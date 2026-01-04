@@ -1,6 +1,7 @@
 import sys
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
+raise SystemExit("CI INTENTIONAL FAILURE TEST")
 
 """
 CPOS Full System Verification Script
