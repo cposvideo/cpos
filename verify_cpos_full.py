@@ -15,6 +15,16 @@ import os
 import traceback
 from sqlalchemy import create_engine, inspect
 
+import argparse
+import sys
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--ci", action="store_true", help="Run in strict CI mode")
+args = parser.parse_args()
+
+CI_STRICT = args.ci
+
+
 # ------------------------------------------------------------
 # Helpers
 # ------------------------------------------------------------
